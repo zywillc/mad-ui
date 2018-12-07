@@ -10,3 +10,8 @@ convert script to a web service
 2. wrap them in Docker image
 3. deployment to Kubernetes
 4. that's it
+
+## demo
+![demo.gif][ui]
+
+[ui]: mad-react/demo.gif
