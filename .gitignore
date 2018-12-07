@@ -1,0 +1,41 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+
+### react ###
+# dependencies
+mad-react/node_modules
+mad-react*/.pnp
+mad-react/.pnp.js
+
+# testing
+mad-react/coverage
+
+# production
+mad-react/build
+
+# misc
+mad-react/.DS_Store
+mad-react/.env.local
+mad-react/.env.development.local
+mad-react/.env.test.local
+mad-react/.env.production.local
+
+mad-react/npm-debug.log*
+mad-react/yarn-debug.log*
+mad-react/yarn-error.log*
