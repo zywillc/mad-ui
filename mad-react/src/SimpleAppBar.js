@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
-
+import GitHubIcon from './GithubIcon'
 class SimpleAppBar extends Component {
   render() {
     return (
@@ -19,6 +19,9 @@ class SimpleAppBar extends Component {
             <Typography variant="h6" color="inherit">
               DataSets
             </Typography>
+            <IconButton color="inherit" href="https://github.com/zywillc/mad-ui" className="pos">
+            <GitHubIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>
