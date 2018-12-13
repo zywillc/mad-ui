@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LdapList from './LdapList';
 import LdapEdit from './LdapEdit';
 import Home from './Home';
+import LdapBatch from './LdapBatch'
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import pink from '@material-ui/core/colors/pink';
 
@@ -25,6 +26,7 @@ class App extends Component {
           <Route path='/' exact={true} component={Home}/>
           <Route path='/ldaps' exact={true} component={LdapList}/>
           <Route path='/ldaps/:id' component={LdapEdit}/>
+          <Route path='/batch/' component={LdapBatch}/>
         </Switch>
       </Router>
       </MuiThemeProvider>

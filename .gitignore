@@ -39,3 +39,5 @@ mad-react/.env.production.local
 mad-react/npm-debug.log*
 mad-react/yarn-debug.log*
 mad-react/yarn-error.log*
+
+**/.DS_Store

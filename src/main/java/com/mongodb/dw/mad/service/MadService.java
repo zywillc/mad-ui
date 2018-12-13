@@ -8,6 +8,7 @@ import com.mongodb.dw.mad.ClusterProperties;
 import com.mongodb.dw.mad.pojos.ApiResObject;
 import com.mongodb.dw.mad.pojos.DbUser;
 import com.mongodb.dw.mad.pojos.MadDTO;
+import com.mongodb.dw.mad.pojos.MadListDTO;
 import com.mongodb.dw.mad.ldap.dao.LdapDwDsRepo;
 import com.mongodb.dw.mad.ldap.entity.LdapDwDsEntry;
 import com.mongodb.dw.mad.mongo.dao.MadRepo;
@@ -109,6 +110,11 @@ public class MadService {
         madRepo.save(mad);
     }
 
+    public void saveMadListToMongo(MadListDTO madListDTO) {
+        List<MadDTO> madDTOList = madListDTO.getMads();
+        madDTOList.parallelStream().forEach( s -> saveMadToMongo(s) );
+    }
+
     public Name createLdapDwDs(MadDTO madDTO){
         String cluster = madDTO.getCluster();
         String db = madDTO.getDatabase();
@@ -128,6 +134,11 @@ public class MadService {
         }
         ldapDwDsRepo.create(entry);
         return id;
+    }
+
+    public List<Name> batchCreateLadpDwDs(MadListDTO madListDTO) {
+        List<MadDTO> madDTOList = madListDTO.getMads();
+        return madDTOList.parallelStream().map( s -> createLdapDwDs(s)).collect(Collectors.toList());
     }
 
 

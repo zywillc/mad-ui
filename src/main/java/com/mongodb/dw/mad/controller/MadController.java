@@ -2,12 +2,14 @@ package com.mongodb.dw.mad.controller;
 
 import com.mongodb.dw.mad.mongo.entity.Mad;
 import com.mongodb.dw.mad.pojos.MadDTO;
+import com.mongodb.dw.mad.pojos.MadListDTO;
 import com.mongodb.dw.mad.service.MadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Name;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -61,9 +63,14 @@ public class MadController {
 
     @RequestMapping(value = "/ldaps", method = {RequestMethod.POST, RequestMethod.PUT})
     @ResponseStatus(HttpStatus.CREATED)
-    public MadDTO createToLdap(@Valid @RequestBody MadDTO madDTO) {
-        madService.createLdapDwDs(madDTO);
-        return madDTO;
+    public Name createToLdap(@Valid @RequestBody MadDTO madDTO) {
+        return madService.createLdapDwDs(madDTO);
+    }
+
+    @RequestMapping(value = "/ldaps/batch", method = {RequestMethod.POST, RequestMethod.PUT})
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<Name> batchCreateToLdap(@Valid @RequestBody MadListDTO madListDTO) {
+        return madService.batchCreateLadpDwDs(madListDTO);
     }
 
 
@@ -72,6 +79,13 @@ public class MadController {
     public MadDTO createToMongo(@Valid @RequestBody MadDTO madDTO) {
         madService.saveMadToMongo(madDTO);
         return madDTO;
+    }
+
+    @RequestMapping(value = "/mongo/batch", method = {RequestMethod.POST, RequestMethod.PUT})
+    @ResponseStatus(HttpStatus.CREATED)
+    public MadListDTO batchCreateToMongo(@Valid @RequestBody MadListDTO madListDTO) {
+        madService.saveMadListToMongo(madListDTO);
+        return madListDTO;
     }
 
     @RequestMapping(value = "/access", method = {RequestMethod.POST, RequestMethod.PUT})

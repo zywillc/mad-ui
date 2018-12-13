@@ -1,0 +1,4 @@
+cluster,database,collection,title,tag,description
+DataWarehouseProd,dw,dw__cloud_backend__atlas_SFDC,Cloud Salesforce Accounts,Cloud,"Information about Salesforce accounts, including paid tier status, creation date, region, and segment"
+DataWarehouseProd,dw,dw__cloud_backend__cloud_groups,Cloud Groups,Cloud,"Information about cloud groups (aka projects), including creation date, paid status, and details on the associated clusters."
+DataWarehouseProd,dw,dw__cloud_backend__cloud_invoices,Cloud Invoices,Cloud,"Information about invoices, including date, amount billed, and payment method"

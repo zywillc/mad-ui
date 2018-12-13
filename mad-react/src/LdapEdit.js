@@ -10,6 +10,13 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import CancelIcon from '@material-ui/icons/CancelOutlined'
 import SvgIcon from '@material-ui/core/SvgIcon';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import ReactJson from 'react-json-view'
 
 
 
@@ -18,10 +25,8 @@ import 'react-tagsinput/react-tagsinput.css'
 function MongoIcon(props) {
   return (
     <SvgIcon {...props} viewBox="0 0 100 100">
-     <path d="M51.167,0c-1.959,11.753-22.245,21.568-22.245,50.217c0,25.908,14.264,33.808,17.203,35.033
-	C51.511,79.617,50.677,33.056,51.167,0z"/>
-<path d="M51.875,6.375c2.5,6.625,18.918,23.273,18.918,43.842s-9.06,30.118-16.895,35.749c0,0,0,7.897,0,9.611
-	s-1.377,2.571-2.234,2.571s-2.418-0.796-2.418-2.143s0-9.427,0-9.427C56.346,83.395,52.242,27.066,51.875,6.375z"/>
+     <path d="M51.167,0c-1.959,11.753-22.245,21.568-22.245,50.217c0,25.908,14.264,33.808,17.203,35.033 C51.511,79.617,50.677,33.056,51.167,0z"/>
+     <path d="M51.875,6.375c2.5,6.625,18.918,23.273,18.918,43.842s-9.06,30.118-16.895,35.749c0,0,0,7.897,0,9.611s-1.377,2.571-2.234,2.571s-2.418-0.796-2.418-2.143s0-9.427,0-9.427C56.346,83.395,52.242,27.066,51.875,6.375z"/>
     </SvgIcon>
   );
 }
@@ -45,7 +50,8 @@ class LdapEdit extends Component {
     super(props);
     this.state = {
       item: this.emptyItem,
-      tags: this.tags
+      tags: this.tags,
+      open: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleTagsChange = this.handleTagsChange.bind(this);
@@ -53,6 +59,14 @@ class LdapEdit extends Component {
     this.handleMongoSubmit = this.handleMongoSubmit.bind(this);
     this.handleAtlasSubmit = this.handleAtlasSubmit.bind(this);
   }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   async componentDidMount() {
     if (this.props.match.params.id !== 'new') {
@@ -72,13 +86,15 @@ class LdapEdit extends Component {
   }
 
   handleTagsChange(tags) {
+    let item = {...this.state.item};
+    item['tags'] = tags;
+    this.setState({item: item});
     this.setState({tags: tags});
   }
 
   async handleLdapSubmit(event) {
     event.preventDefault();
-    let item = {...this.state.item};
-    item['tags'] = [...this.state.tags];
+    const item = this.state.item;
     await fetch('/api/ldap', {
       method: (item.id) ? 'PUT' : 'POST',
       headers: {
@@ -92,8 +108,7 @@ class LdapEdit extends Component {
 
   async handleMongoSubmit(event) {
     event.preventDefault();
-    let item = {...this.state.item};
-    item['tags'] = [...this.state.tags];
+    const item = this.state.item;
     await fetch('/api/mongo', {
       method: (item.id) ? 'PUT' : 'POST',
       headers: {
@@ -106,8 +121,7 @@ class LdapEdit extends Component {
 
   async handleAtlasSubmit(event) {
     event.preventDefault();
-    let item = {...this.state.item};
-    item['tags'] = [...this.state.tags];
+    const item = this.state.item;
     await fetch('/api/access', {
       method: (item.id) ? 'PUT' : 'POST',
       headers: {
@@ -194,18 +208,60 @@ class LdapEdit extends Component {
 
           <FormGroup className="col-md-1 mb-1">
             <Tooltip title="Mongo" aria-label="Mongo">
-            <Fab color="primary" type="submit" onSubmit={this.handleMongoSubmit}>
+            <Fab color="primary" onClick={this.handleClickOpen}>
             <MongoIcon />
             </Fab>
             </Tooltip>
+            <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description">
+          <DialogTitle id="alert-dialog-title"></DialogTitle>
+          <DialogContent>
+            <DialogContentText color="secondary" id="alert-dialog-description">
+              Please check and confirm this new LDAP:<br></br>
+              <ReactJson src={this.state.item} />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="secondary">
+              No
+            </Button>
+            <Button type="submit" onSubmit={this.handleMongoSubmit} onClick={this.handleClose} color="primary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
           </FormGroup>
 
           <FormGroup className="col-md-1 mb-1">
             <Tooltip title="Atlas" aria-label="Atlas">
-            <Fab color="primary" type="submit" onSubmit={this.handleAtlasSubmit}>
+            <Fab color="primary" >
             <CloudUploadIcon />
             </Fab>
             </Tooltip>
+            <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title"></DialogTitle>
+          <DialogContent>
+            <DialogContentText color="secondary" id="alert-dialog-description">
+              Please check and confirm this new LDAP:<br></br>
+              <ReactJson src={this.state.item} />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="secondary">
+              No
+            </Button>
+            <Button type="submit" onSubmit={this.handleMongoSubmit} onClick={this.handleClose} color="primary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
           </FormGroup>
 
           <FormGroup className="col-md-1 mb-1">

@@ -1,13 +1,11 @@
 package com.mongodb.dw.mad.pojos;
 
 import lombok.Data;
-import lombok.ToString;
 
 import java.util.List;
 import javax.validation.constraints.NotNull;
 
 @Data(staticConstructor = "of")
-@ToString
 public class MadDTO {
     @NotNull
     private String accessType;
